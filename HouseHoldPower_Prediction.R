@@ -15,6 +15,7 @@
 #                                                                                    #
 ######################################################################################
 
+
 ## Calling a package ####
 library(pacman)
 pacman::p_load(stats, readr, caret, plyr, ggplot2, data.table, corrplot, arules, 
@@ -133,7 +134,7 @@ GroupedByWD <- PoCo %>%
 # PowerConsumption Grouped by hour on weekdays with mean Value
 GroupedByHonWD <- PoCo %>% 
                   na.exclude() %>% 
-                  filter(weekday %in% c ("ŒŽ—j“ú", "‰Î—j“ú", "…—j“ú", "–Ø—j“ú", "‹à—j“ú")) %>% 
+                  filter(weekday %in% c ("æœˆæ›œæ—¥", "ç«æ›œæ—¥", "æ°´æ›œæ—¥", "æœ¨æ›œæ—¥", "é‡‘æ›œæ—¥")) %>% 
                   group_by(hour) %>%
                   mutate(SM_others = mean(Global_active_power)*1000/60 - 
                                      mean(Sub_metering_1) - 
@@ -148,7 +149,7 @@ GroupedByHonWD <- PoCo %>%
 # PowerConsumption Grouped by hour on weekdays with mean Value
 GroupedByHonWE <- PoCo %>% 
                   na.exclude() %>% 
-                  filter(weekday %in% c ("“y—j“ú", "“ú—j“ú")) %>% 
+                  filter(weekday %in% c ("åœŸæ›œæ—¥", "æ—¥æ›œæ—¥")) %>% 
                   group_by(hour) %>%
                   mutate(SM_others = mean(Global_active_power)*1000/60 - 
                                      mean(Sub_metering_1) - 
@@ -165,13 +166,13 @@ GroupedByY <- PoCo$Global_active_power %>%
               na.exclude() %>%
               group_by(year) %>% 
               summarize(sumPowerConsumption = sum(Global_active_power)/60) 
-GroupedByY
+
 
 ## Grouping Temperature Data YearAndMonth ####
 # Temperature information grouped by month and Year
 TempYM <- TempInParis %>% 
-  group_by(YearMonth) %>% 
-  summarize(meanTemp = mean(Temperature))
+          group_by(YearMonth) %>% 
+          summarize(meanTemp = mean(Temperature))
 
 
 ## Visualization with PowerConsumption ####
@@ -190,13 +191,13 @@ G_YM_PoCo <- ggplot(data = GroupedByYM, aes(x = YearMonth, y = GroupedByYM)) +
              ylab("Energy Consumption") +  xlab("YearMonth") + 
              ggtitle("Energy consumption") +
              theme(axis.text.x = element_text(face = "bold", size = 12, angle = 0))
-G_YM_PoCo
+
 
 ## weekly PowerConsumption Visualization #### 
 # Ordering weekday
 GroupedByWD$weekday<-  ordered(GroupedByWD$weekday, 
-                               levels = c("ŒŽ—j“ú", "‰Î—j“ú", "…—j“ú", "–Ø—j“ú", 
-                                          "‹à—j“ú", "“y—j“ú", "“ú—j“ú"))
+                               levels = c("æœˆæ›œæ—¥", "ç«æ›œæ—¥", "æ°´æ›œæ—¥", "æœ¨æ›œæ—¥", 
+                                          "é‡‘æ›œæ—¥", "åœŸæ›œæ—¥", "æ—¥æ›œæ—¥"))
 
 ## Weekly PowerConsumption with mean
 graphGroupedByWD <- ggplot(data = GroupedByWD, aes(x = weekday, y = GroupedByWD)) +
@@ -213,8 +214,6 @@ graphGroupedByWD <- ggplot(data = GroupedByWD, aes(x = weekday, y = GroupedByWD)
                     ylab("Energy Consumption") +  xlab("weekday") + ggtitle("Energy consumption") +
                     theme(axis.text.x = element_text(face = "bold", size = 12, angle = 0)) 
 
-graphGroupedByWD
-
 
 ## Hourly PowerConsumption on weekdays Visualization ####
 graphGroupedByHonWD <- ggplot(data = GroupedByHonWD, aes(x = hour, y = GroupedByHonWD)) +
@@ -230,10 +229,9 @@ graphGroupedByHonWD <- ggplot(data = GroupedByHonWD, aes(x = hour, y = GroupedBy
                                  group = 1, color = "others")) +
                        ylab("Energy Consumption") +  xlab("hour") + ggtitle("Energy consumption") +
                        theme(axis.text.x = element_text(face = "bold", size = 12, angle = 0)) 
-graphGroupedByHonWD
 
 
-## Hourly PowerConsumption on weekend Visualization####
+## Hourly PowerConsumption on weekend Visualization ####
 graphGroupedByHonWE <- ggplot(data = GroupedByHonWE, aes(x = hour, y = GroupedByHonWE)) +
                        geom_line(aes(x = GroupedByHonWE$hour, y = GroupedByHonWE$mean_SM1, 
                                  group = 1, color = "Submeter1")) +
@@ -249,7 +247,6 @@ graphGroupedByHonWE <- ggplot(data = GroupedByHonWE, aes(x = hour, y = GroupedBy
                        ggtitle("Energy consumption") +
                        theme(axis.text.x = element_text(face = "bold", size = 12, angle = 0)) 
 
-graphGroupedByHonWE
 
 ## Visualization with Temprature ####
 # Order the data 
@@ -261,7 +258,7 @@ graphTemp <- ggplot(data = TempYM, aes(x = YearMonth, y = TempYM)) +
                        group = 1, color = "Temperature")) +
              ggtitle("Energy consumption") +
              theme(axis.text.x = element_text(face = "bold", size = 12, angle = 0))
-graphTemp
+
 
 ## Visualization for Temperature and PowerConsumption together ####
 ## Year-Monthly PowerConsumption and Temperature ####
@@ -281,7 +278,6 @@ G_YM_PoCoAndTemp <- ggplot(data = GroupedByYM, aes(x = YearMonth, y = GroupedByY
                     ylab("Energy Consumption") +  xlab("YearMonth") + 
                     ggtitle("Energy consumption") +
                     theme(axis.text.x = element_text(face = "bold", size = 12, angle = 0))
-G_YM_PoCoAndTemp
 
 
 ## Dataframe and Another way of Visualization for Year-Monthly PowerConsumption and Temperature ####
@@ -348,7 +344,6 @@ plotly_seasonalGAP_10 <- seasonalGAP_10 %>%
                          layout(title = "Power Consumption January 9th, 2008",
                          xaxis = list(title = "Time"),
                          yaxis = list(title = "Power(watt-hours)"))
-plotly_seasonalGAP_10
 
 
 ## Holt Winter ####
@@ -380,6 +375,7 @@ plot(fitARIMAfor, ylim = c(0,100000), ylab = "Watt-Hours", xlab = "Time - Sub-me
 # Checking the accuracy of model
 accuracy(fitARIMAfor, TSTESTY070809_YearMonth)
 
+
 ## Correlation Coefficient ####
 Dataframe.Temp.Renamed$YearMonth <- NULL
 Dataframe.Temp.correlation <- cor(Dataframe.Temp.Renamed)
@@ -388,4 +384,3 @@ Dataframe.Temp.correlation.plot <- corrplot(Dataframe.Temp.correlation,
                                             type = "upper",
                                             tl.cex = 0.6,   
                                             number.cex = 0.8)
-Dataframe.Temp.correlation.plot
