@@ -1,28 +1,38 @@
 ######################################################################################
 # Time series analysis and visualization with Energy Consumption Data                #
 #                                                                                    #
+# Energy consumption data of 47months in a household with Submetering system         #
+# in France was given.                                                               #
+# Temperature of this area was added to the energy consumption Data.                 # 
+# Time series analysis was used for the analysis of these data.                      #
+# Three different models were used for the prediction of Energy consumption.         #                                                                                    #
+#                                                                                    #
 # Mizuki Kakei                                                                       #
 #                                                                                    #
 # Version 1.0                                                                        #
 #                                                                                    #      
 # Date : 26.06.2019                                                                  #     
 #                                                                                    #
-# Energy consumption data of 47months in a household with Submetering system         #
-# in France was given.                                                               #
-# Temperature of this area was added to the energy consumption Data.                 # 
-# Time series analysis was used for the analysis of these data.                      #
-# Three different models were used for the prediction of Energy consumption.         #
-#                                                                                    #
 ######################################################################################
 
 
 ## Calling a package ####
-library(pacman)
-pacman::p_load(stats, readr, caret, plyr, ggplot2, data.table, corrplot, arules, 
-               arulesViz, caTools, prabclus, DEoptimR, trimcluster, devtools, 
-               rattle, colorspace, RMySQL, sqldf, dplyr, lubridate, gridExtra,
-               plotly, ggfortify, forecast, zoo, reshape2, Rserve)
-
+library(stats)                                                                       # R statistical function
+library(readr)                                                                       # Reading file
+library(plyr)                                                                        # Breaking big problems down into managable pecies and bringing back together
+library(ggplot2)                                                                     # Function for Visualization             
+library(data.table)                                                                  # Function for fast aggregation of large data          
+library(corrplot)                                                                    # Correlation matrix format
+library(colorspace)                                                                  # For using color palettes
+library(dplyr)                                                                       # Function for working with dataframe such as filtering, mutating, summarizing 
+library(lubridate)                                                                   # 
+library(gridExtra)                                                                   #
+library(plotly)                                                                      #
+library(ggfortify)                                                                   #
+library(forecast)                                                                    #
+library(zoo)                                                                         #
+library(reshape2)                                                                    #
+library(Rserve)                                                                      #
 
 ## Connecting R and Tableau ####
 Rserve()
