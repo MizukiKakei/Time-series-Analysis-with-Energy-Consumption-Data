@@ -20,19 +20,19 @@
 library(stats)                                                                       # R statistical function
 library(readr)                                                                       # Reading file
 library(plyr)                                                                        # Breaking big problems down into managable pecies and bringing back together
-library(ggplot2)                                                                     # Function for Visualization             
-library(data.table)                                                                  # Function for fast aggregation of large data          
+library(ggplot2)                                                                     # Visualization             
+library(data.table)                                                                  # Fast aggregation of large data          
 library(corrplot)                                                                    # Correlation matrix format
-library(colorspace)                                                                  # For using color palettes
-library(dplyr)                                                                       # Function for working with dataframe such as filtering, mutating, summarizing 
-library(lubridate)                                                                   # 
-library(gridExtra)                                                                   #
-library(plotly)                                                                      #
-library(ggfortify)                                                                   #
-library(forecast)                                                                    #
-library(zoo)                                                                         #
-library(reshape2)                                                                    #
-library(Rserve)                                                                      #
+library(colorspace)                                                                  # Color palettes
+library(dplyr)                                                                       # Working with dataframe such as filtering, mutating, summarizing 
+library(lubridate)                                                                   # Working with Date and time
+library(gridExtra)                                                                   # Drawing tables
+library(plotly)                                                                      # Visualization
+library(ggfortify)                                                                   # Plotting tools
+library(forecast)                                                                    # Function for forcasting
+library(zoo)                                                                         # Grouping Year and Month
+library(reshape2)                                                                    # Melting data
+library(Rserve)                                                                      # Connecting R and Tableau
 
 ## Connecting R and Tableau ####
 Rserve()
@@ -184,6 +184,26 @@ TempYM <- TempInParis %>%
           group_by(YearMonth) %>% 
           summarize(meanTemp = mean(Temperature))
 
+## Dataframe and Another way of Visualization for Year-Monthly PowerConsumption and Temperature ####
+## Creating data frame 
+Dataframe.Temp <- data.frame(TempYM$YearMonth, TempYM$meanTemp, GroupedByYM$mean_SM1, 
+                             GroupedByYM$mean_SM2, GroupedByYM$mean_SM3, 
+                             GroupedByYM$mean_gap*1000/60, GroupedByYM$mean_SM_others)
+Dataframe.Temp.Renamed <- setNames(Dataframe.Temp, c("YearMonth","Temperature","SubMeter1",
+                                                     "SubMeter2","SubMeter3","GlobalActivePower",
+                                                     "OtherPowerConsumption"))
+str(Dataframe.Temp)
+
+
+## Correlation Coefficient ####
+Dataframe.Temp.Renamed$YearMonth <- NULL
+Dataframe.Temp.correlation <- cor(Dataframe.Temp.Renamed)
+Dataframe.Temp.correlation.plot <- corrplot(Dataframe.Temp.correlation, 
+                                            method="number", 
+                                            type = "upper",
+                                            tl.cex = 0.6,   
+                                            number.cex = 0.8)
+
 
 ## Visualization with PowerConsumption ####
 ## Year-Monthly PowerConsumption Visualization ####
@@ -290,16 +310,6 @@ G_YM_PoCoAndTemp <- ggplot(data = GroupedByYM, aes(x = YearMonth, y = GroupedByY
                     theme(axis.text.x = element_text(face = "bold", size = 12, angle = 0))
 
 
-## Dataframe and Another way of Visualization for Year-Monthly PowerConsumption and Temperature ####
-## Creating data frame 
-Dataframe.Temp <- data.frame(TempYM$YearMonth, TempYM$meanTemp, GroupedByYM$mean_SM1, 
-                             GroupedByYM$mean_SM2, GroupedByYM$mean_SM3, 
-                             GroupedByYM$mean_gap*1000/60, GroupedByYM$mean_SM_others)
-Dataframe.Temp.Renamed <- setNames(Dataframe.Temp, c("YearMonth","Temperature","SubMeter1",
-                                                     "SubMeter2","SubMeter3","GlobalActivePower",
-                                                     "OtherPowerConsumption"))
-str(Dataframe.Temp)
-
 ## Plotting
 Dataframe.Temp.Renamed.Melt <- melt(Dataframe.Temp.Renamed, id.vars = "YearMonth")
 ggplot(Dataframe.Temp.Renamed.Melt, 
@@ -384,13 +394,3 @@ plot(fitARIMAfor, ylim = c(0,100000), ylab = "Watt-Hours", xlab = "Time - Sub-me
 
 # Checking the accuracy of model
 accuracy(fitARIMAfor, TSTESTY070809_YearMonth)
-
-
-## Correlation Coefficient ####
-Dataframe.Temp.Renamed$YearMonth <- NULL
-Dataframe.Temp.correlation <- cor(Dataframe.Temp.Renamed)
-Dataframe.Temp.correlation.plot <- corrplot(Dataframe.Temp.correlation, 
-                                            method="number", 
-                                            type = "upper",
-                                            tl.cex = 0.6,   
-                                            number.cex = 0.8)
