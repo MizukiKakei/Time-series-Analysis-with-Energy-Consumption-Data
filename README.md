@@ -1,9 +1,8 @@
 # Energy Consumption
 
 ## general description
-Knowing the pattern and the visualization of energy consumption is the key to reduce their energy consumption. Saving energy has some advantages such that the user can save money and it is also environment friendly. Because of these reasons, Here time series analysis of energy consumption was conducted. As an example, energy consumption data in a household for 47 months in Sceaux was used. 
-After some analysis, some relationship between energy consumption and the temperature was found. To be more accurate, the temperature information was also added into the analysis.
-
+Here is the analysis of energy consumption in a household in France in order to know the patterns of the use of electricity.
+Knowing the pattern and the visualization of energy consumption are the keys to reduce their use of energy. Saving energy has some advantages such that the tenants can save money and it is also environment friendly. Because of these reasons, Here time series analysis of energy consumption was conducted.
 
 ## Data description of energy consumption
 47 months energy consumption data was given. 
@@ -21,7 +20,7 @@ The data includes
 
 
 ## Data description of temperature 
-47 months temperature data was given for every 3 hours.
+After some analysis, some relationship between energy consumption and the temperature was found. In order to know the exact relation between the energy consumption and the temperature, the temperature information was also added into the analysis. 47 months temperature data was given for every 3 hours. 
 The data includes
 - date
 - time
@@ -31,15 +30,3 @@ The data includes
 ## Methods of analysis
 Time series analysis was conducted. 
 To make a prediction, three different algorythms which were linear model, HoltWinter(triple exponential smoothing), Arima were used.
-
-
-
-
-
-
-
-
-
-
-
-
