@@ -144,7 +144,7 @@ GroupedByWD <- PoCo %>%
 # PowerConsumption Grouped by hour on weekdays with mean Value
 GroupedByHonWD <- PoCo %>% 
                   na.exclude() %>% 
-                  filter(weekday %in% c ("月曜日", "火曜日", "水曜日", "木曜日", "金曜日")) %>% 
+                  filter(weekday %in% c ("Monday", "Tuesday", "Wednesday", "Thursday", "Friday")) %>% 
                   group_by(hour) %>%
                   mutate(SM_others = mean(Global_active_power)*1000/60 - 
                                      mean(Sub_metering_1) - 
@@ -159,7 +159,7 @@ GroupedByHonWD <- PoCo %>%
 # PowerConsumption Grouped by hour on weekdays with mean Value
 GroupedByHonWE <- PoCo %>% 
                   na.exclude() %>% 
-                  filter(weekday %in% c ("土曜日", "日曜日")) %>% 
+                  filter(weekday %in% c ("Saturday", "Sunday")) %>% 
                   group_by(hour) %>%
                   mutate(SM_others = mean(Global_active_power)*1000/60 - 
                                      mean(Sub_metering_1) - 
@@ -226,8 +226,8 @@ G_YM_PoCo <- ggplot(data = GroupedByYM, aes(x = YearMonth, y = GroupedByYM)) +
 ## weekly PowerConsumption Visualization #### 
 # Ordering weekday
 GroupedByWD$weekday<-  ordered(GroupedByWD$weekday, 
-                               levels = c("月曜日", "火曜日", "水曜日", "木曜日", 
-                                          "金曜日", "土曜日", "日曜日"))
+                               levels = c("Monday", "Tuesday", "Wednesday", "Thursday", 
+                                          "Friday", "Saturday", "Sunday"))
 
 ## Weekly PowerConsumption with mean
 graphGroupedByWD <- ggplot(data = GroupedByWD, aes(x = weekday, y = GroupedByWD)) +
@@ -350,7 +350,7 @@ plot(seasonalGAP)
 
 seasonalGAP_10 <- PoCo %>% 
                   filter((minute == 0) | minute == 10 | minute == 20 |
-                           minute == 30 | minute == 40 | minute == 50)
+                          minute == 30 | minute == 40 | minute == 50)
 
 plotly_seasonalGAP_10 <- seasonalGAP_10 %>% 
                          na.exclude() %>%
