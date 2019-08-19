@@ -2,7 +2,7 @@
 
 ## general description
 Here is the analysis of energy consumption in a household in France in order to know the patterns of the use of electricity.
-Knowing the pattern and the visualization of energy consumption are the keys to reduce their use of energy. Saving energy has some advantages such that the tenants can save money and it is also environment friendly. Because of these reasons, Here time series analysis of energy consumption was conducted.
+Knowing the pattern and the visualization of energy consumption are the keys to reduce their use of energy. Saving energy has some advantages such that the tenants can save utility cost and it is also environment friendly. Because of these reasons, Here time series analysis of energy consumption was conducted.
 
 ## Data description of energy consumption
 47 months energy consumption data was given. 
