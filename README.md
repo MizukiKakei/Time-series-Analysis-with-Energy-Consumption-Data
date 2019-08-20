@@ -29,4 +29,4 @@ The data includes
 
 ## Methods of analysis
 Time series analysis was conducted. 
-To make a prediction, three different algorythms which were linear model, HoltWinter(triple exponential smoothing), Arima were used.
+To make a prediction, three different algorythms which were linear model, HoltWinter(triple exponential smoothing), Arima were used. In the end, the prediction based on liner model gave the best values of accuracy. 
